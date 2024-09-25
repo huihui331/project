@@ -53,17 +53,22 @@ import Filings from './views/filings/index.vue'
 @media screen and (min-width: 768px) {
   .app {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     .left {
+      flex: 1;
+      margin-left: 60px;
+      // background-color: rgb(168, 215, 234);
       .footer {
         position: relative;
         left: 0;
         bottom: -100px;
-        bottom: 0px;
       }
     }
     .right {
-      padding-bottom: 0px;
+      flex: 1.5;
+      margin-right: 100px;
+      padding: 40px 15px 0px 15px;
+      // background-color: rgb(240, 200, 207);
     }
   }
 }
