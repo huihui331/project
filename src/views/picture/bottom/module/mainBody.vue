@@ -9,7 +9,8 @@
           name="title"
           id="title-input"
           placeholder="Title"
-          value="大标题"
+          :value="pictureStore.title"
+          @input="changeTitle(($event.target as HTMLInputElement).value)"
           aria-label="Title"
         />
         <input
@@ -60,23 +61,23 @@
       <!-- 颜色选择器：背景色 + 大标题颜色 +  小标题颜色-->
       <div class="color-selectors-container">
         <div>
-          <label for="main-bg-color-selector">背景颜色：</label>
-          <input
-            type="color"
-            id="main-bg-color-selector"
-            name="main-bg-color-selector"
-            value="#4078C0"
-          />
-          <br />
-          <br />
-        </div>
-        <div>
           <label for="title-color-selector">大标题颜色：</label>
           <input
             type="color"
             id="title-color-selector"
             name="title-color-selector"
             value="#FFFFFF"
+          />
+          <br />
+          <br />
+        </div>
+        <div>
+          <label for="main-bg-color-selector">背景颜色：</label>
+          <input
+            type="color"
+            id="main-bg-color-selector"
+            name="main-bg-color-selector"
+            value="#4078C0"
           />
           <br />
           <br />
@@ -141,71 +142,29 @@
       </div>
       <!-- 大小标题的字体类型 -->
       <div class="font-selectors-container">
+        <!-- 大标题字体类型 -->
         <div>
           <label for="title-font-selector">大标题字体：</label>
           <select name="title-font-selector" id="title-font-selector">
-            <option value="Red Hat Display" selected>Red Hat Display</option>
-            <option value="Kalam">Kalam</option>
-            <option value="Poppins">Poppins</option>
-            <option value="Athiti">Athiti</option>
-            <option value="MavenPro">MavenPro</option>
-            <option value="Ubuntu">Ubuntu</option>
-            <option value="IstokWeb">IstokWeb</option>
-            <option value="Courgette">Courgette</option>
-            <option value="Quattrocento">Quattrocento</option>
-            <option value="DellaRespira">DellaRespira</option>
-            <option value="Lato">Lato</option>
-            <option value="Martel">Martel</option>
-            <option value="Lancelot">Lancelot</option>
-            <option value="Playball">Playball</option>
-            <option value="LifeSavers">LifeSavers</option>
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <!-- <option value="Helvetica">Helvetica</option> -->
-            <option value="Tahoma">Tahoma</option>
-            <option value="Trebuchet MS">Trebuchet MS</option>
-            <!-- <option value="Times New Roman">Times New Roman</option> -->
-            <!-- <option value="Georgia">Georgia</option> -->
-            <option value="Garamond">Garamond</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Brush Script MT">Brush Script MT</option>
+            <option v-for="item in allTitleFont" :key="item" :value="item">
+              {{ item }}
+            </option>
           </select>
         </div>
+        <!-- 小标题字体类型 -->
         <div>
           <label for="subtitle-font-selector">小标题字体：</label>
           <select name="subtitle-font-selector" id="subtitle-font-selector">
-            <option value="Red Hat Display">Red Hat Display</option>
-            <option value="Kalam" selected>Kalam</option>
-            <option value="Poppins">Poppins</option>
-            <option value="Athiti">Athiti</option>
-            <option value="MavenPro">MavenPro</option>
-            <option value="Ubuntu">Ubuntu</option>
-            <option value="IstokWeb">IstokWeb</option>
-            <option value="Courgette">Courgette</option>
-            <option value="Quattrocento">Quattrocento</option>
-            <option value="DellaRespira">DellaRespira</option>
-            <option value="Lato">Lato</option>
-            <option value="Martel">Martel</option>
-            <option value="Lancelot">Lancelot</option>
-            <option value="Playball">Playball</option>
-            <option value="LifeSavers">LifeSavers</option>
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <!-- <option value="Helvetica">Helvetica</option> -->
-            <option value="Tahoma">Tahoma</option>
-            <option value="Trebuchet MS">Trebuchet MS</option>
-            <!-- <option value="Times New Roman">Times New Roman</option> -->
-            <!-- <option value="Georgia">Georgia</option> -->
-            <option value="Garamond">Garamond</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Brush Script MT">Brush Script MT</option>
+            <option v-for="item in allSutitleFont" :key="item" :value="item">
+              {{ item }}
+            </option>
           </select>
         </div>
       </div>
       <!-- 标题文字大小调节： 大标题 + 小标题-->
       <div class="font-size-inputs">
         <div>
-          <label for="title-font-size-input">大标题字体大小:</label>
+          <label for="title-font-size-input">大标题字体大小：</label>
           <input
             type="range"
             name="title-font-size-input"
@@ -235,7 +194,73 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+// 引入数据仓库
+import usePictureStore from '@/stores/picture'
+
+// 大标题的所有字体类型
+let allTitleFont = ref<string[]>([
+  'Red Hat Display',
+  'Kalam',
+  'Poppins',
+  'Athiti',
+  'MavenPro',
+  'Ubuntu',
+  'IstokWeb',
+  'Courgette',
+  'Quattrocento',
+  'DellaRespira',
+  'Lato',
+  'Martel',
+  'Lancelot',
+  'Playball',
+  'LifeSavers',
+  'Arial',
+  'Verdana',
+  'Tahoma',
+  'Trebuchet MS',
+  'Garamond',
+  'Courier New',
+  'Brush Script MT',
+])
+// 小标题的所有字体类型
+let allSutitleFont = ref<string[]>([
+  'Kalam',
+  'Red Hat Display',
+  'Poppins',
+  'Athiti',
+  'MavenPro',
+  'Ubuntu',
+  'IstokWeb',
+  'Courgette',
+  'Quattrocento',
+  'DellaRespira',
+  'Lato',
+  'Martel',
+  'Lancelot',
+  'Playball',
+  'LifeSavers',
+  'Arial',
+  'Verdana',
+  'Tahoma',
+  'Trebuchet MS',
+  'Garamond',
+  'Courier New',
+  'Brush Script MT',
+  '',
+  '',
+  '',
+])
+
+// 创建仓库实例
+let pictureStore = usePictureStore()
+
+// 改变大标题
+function changeTitle(title: string) {
+  pictureStore.title = title
+}
+</script>
 
 <style scoped lang="scss">
 // 手机端
@@ -251,10 +276,7 @@
       justify-content: start;
       // justify-content: center;
       flex-wrap: wrap;
-
-      &:not(:last-child) {
-        margin-bottom: 15px;
-      }
+      margin-bottom: 15px;
     }
 
     // 大小标题输入框
@@ -273,12 +295,10 @@
 
     // 长、宽输入框，padding滑块
     .size-inputs {
-      // background-color: skyblue;
       > div {
         &:not(:last-child) {
           margin-right: 15px;
         }
-
         input {
           width: 70px;
           margin-left: 5px;
@@ -293,14 +313,15 @@
 
     // 颜色选择器：背景色 + 大标题颜色 +  小标题颜色
     .color-selectors-container {
+      // background-color: skyblue;
       div {
         display: flex;
         align-items: center;
+        margin-bottom: 5px;
 
         &:not(:last-child) {
           margin-right: 15px;
         }
-
         input {
           margin-left: 5px;
           cursor: pointer;
@@ -319,6 +340,8 @@
     // 大小标题的字体类型
     .font-selectors-container {
       div {
+        margin-bottom: 10px;
+
         &:not(:last-child) {
           margin-right: 15px;
         }
@@ -345,6 +368,7 @@
       div {
         display: flex;
         align-items: flex-start;
+        margin-bottom: 10px;
 
         &:not(:last-child) {
           margin-right: 15px;
@@ -361,6 +385,7 @@
 // 电脑端
 @media screen and (min-width: 768px) {
   .main {
+    padding: 15px 15px 5px 15px;
     .toolbox {
       > div {
         justify-content: center;
@@ -380,6 +405,25 @@
           input {
             margin-bottom: 0px;
           }
+        }
+      }
+
+      .color-selectors-container {
+        div {
+          margin-bottom: 0px;
+        }
+      }
+
+      .font-selectors-container {
+        div {
+          margin-bottom: 0px;
+        }
+      }
+
+      .font-size-inputs {
+        div {
+          margin-top: 10px;
+          margin-bottom: 0px;
         }
       }
     }

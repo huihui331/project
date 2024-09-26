@@ -2,14 +2,21 @@
   <div :class="{ box: true, lightMode: ModeColor == true }">
     <!-- 上方制图 -->
     <div class="header-image-container">
-      <!-- 图片，给类名为github-header-image的div标签添加背景图片,动态追加 -->
-      <div class="github-header-image">
+      <!-- 画布，调整的就是它的样式，非常重要 -->
+      <div
+        class="github-header-image"
+        :style="{ 'background-image': backgroundSvg }"
+      >
         <!-- 大标题 -->
         <div class="title">Hey! I am ...</div>
         <!-- 小标题 -->
         <div class="subtitle">Fullstack developer</div>
-        <!-- 小图片 -->
-        <div class="img-decoration-container"></div>
+        <!-- 装饰小图片 -->
+        <div class="img-decoration-container">
+          <template v-for="item in decorationImg" :key="item.id">
+            <img :src="item.src" alt="装饰小图" width="100px" height="100px" />
+          </template>
+        </div>
       </div>
     </div>
     <!-- 下方按钮 -->
@@ -18,20 +25,44 @@
         深色模式
       </button>
       <button type="button" class="randomize-button">随机</button>
-      <button type="button" class="download-button">下载</button>
+      <button type="button" class="download-button" @click="download">
+        下载
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+// 引入获取图片背景花样的方法
+import { getBackgroundSvg } from '@/utils/backgroundSvg'
 
 // 是否开启浅色模式：true开启，false不开启（深色模式）
 let ModeColor = ref<boolean>(false)
+// 当前图片背景的花样
+let bgSvg = ref<string>('jigsaw')
+// 当前图片背景花样的颜色
+let bgSvgColor = ref<string>('FFFFFF')
+// 当前图片背景花样的透明度
+let bgSvgOpacity = ref<number>(0.25)
+// 当前图片背景花样的具体样式（花样+颜色+透明度）
+let backgroundSvg = ref<string>(
+  getBackgroundSvg(bgSvg.value, bgSvgColor.value, bgSvgOpacity.value),
+)
+// 图片里的装饰小图
+let decorationImg = ref<any>([
+  { id: 0, src: '/src/assets/images/decorations/my-octocat.png' },
+])
+// 图片里的装饰小图的宽度
+let decorationImgWidth = ref<number>(77)
 
+// 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {
   ModeColor.value = !ModeColor.value
 }
+
+// 下载图片
+function download() {}
 </script>
 
 <style scoped lang="scss">

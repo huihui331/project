@@ -67,7 +67,7 @@ import Filings from './views/filings/index.vue'
     .right {
       flex: 1.5;
       margin-right: 100px;
-      padding: 40px 15px 0px 15px;
+      padding: 25px 15px 0px 15px;
       // background-color: rgb(240, 200, 207);
     }
   }
