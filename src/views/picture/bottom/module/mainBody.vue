@@ -32,7 +32,7 @@
             type="text"
             name="width-input"
             id="width-input"
-            placeholder="Width"
+            placeholder="宽度"
             :value="pictureStore.width"
             @input="changeWidth(($event.target as HTMLInputElement).value)"
           />
@@ -44,7 +44,7 @@
             type="text"
             name="height-input"
             id="height-input"
-            placeholder="Height"
+            placeholder="高度"
             :value="pictureStore.height"
             @input="changeHeight(($event.target as HTMLInputElement).value)"
           />
@@ -56,7 +56,7 @@
             type="range"
             name="paddings-input"
             id="paddings-input"
-            placeholder="Paddings"
+            placeholder="图片内边距"
             :value="pictureStore.padding"
             @input="changePadding(($event.target as HTMLInputElement).value)"
             min="5"
@@ -114,10 +114,13 @@
       <!-- 图片中文字的排版：居左、居中、居右 -->
       <div class="align-buttons">
         文字对齐：
+        <!-- aria-label：为辅助技术（如屏幕阅读器）提供元素的标签或说明 -->
+        <!-- 屏幕阅读器：它通过语音或触觉返回（如盲文显示器）将屏幕上的文本信息传达给用户。当用户遇到带有aria-label属性的元素时，屏幕阅读器会读取该属性的值，而不是元素的默认文本内容或标签 -->
+        <!-- data-align-value：自定义属性，可能用户存储或表示按钮的当前状态或与之关联的值，在这里可能主要用于展示信息或者JavaScript中的某些逻辑判断，而不是直接改变对齐方式 -->
         <button
           type="button"
           class="left-align-button btn"
-          aria-label="Left align button"
+          aria-label="标题左对齐"
           data-align-value="flex-start"
           @click="changeTextAlign('start')"
         >
@@ -132,7 +135,7 @@
         <button
           type="button"
           class="center-align-button btn"
-          aria-label="Center align button"
+          aria-label="标题居中"
           data-align-value="center"
           @click="changeTextAlign('center')"
         >
@@ -147,7 +150,7 @@
         <button
           type="button"
           class="right-align-button btn"
-          aria-label="Right align button"
+          aria-label="标题右对齐"
           data-align-value="flex-end"
           @click="changeTextAlign('end')"
         >
@@ -209,7 +212,7 @@
             type="range"
             name="title-font-size-input"
             id="title-font-size-input"
-            placeholder="Title font size"
+            placeholder="大标题字体大小"
             :value="pictureStore.titleSize"
             @input="changeTitleSize(($event.target as HTMLInputElement).value)"
             min="5"
@@ -225,7 +228,7 @@
             type="range"
             name="sutitle-font-size-input"
             id="sutitle-font-size-input"
-            placeholder="Subitle font size"
+            placeholder="小标题字体大小"
             :value="pictureStore.subtitleSize"
             @input="
               changeSubtitleSize(($event.target as HTMLInputElement).value)
@@ -373,10 +376,20 @@ function changeSubtitleSize(subtitleSize: string) {
 </script>
 
 <style scoped lang="scss">
+/* 动画：透明度从 0 到 1 */
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 // 手机端
 .main {
   // 主体选项卡下方展示区域
   padding: 15px;
+  animation: fadeEffect 1s; /* 透明度动画时长1s */
   .toolbox {
     box-sizing: border-box;
 

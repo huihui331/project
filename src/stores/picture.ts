@@ -19,6 +19,14 @@ const usePictureStore = defineStore('Picture', {
       subtitleFont: 'Kalam', // 小标题字体类型
       titleSize: '40', // 大标题字体大小
       subtitleSize: '20', // 小标题字体大小
+      borderColor: '#FFFFFF', // 边框颜色
+      borderSize: '0', // 边框大小
+      borderRadius: '7', // 边框圆角
+      patternsColor: '#FFFFFF', // 背景花样颜色
+      patternSize: '100', // 背景花样大小
+      patternOpacity: '0.25', // 背景花样透明度
+      patterns: 'jigsaw', // 背景花样
+      docorationImgSrcSize: '100', // 图片里的装饰小图的大小
       decorationImgSrc: '/src/assets/images/decorations/my-octocat.png', // 图片里的装饰小图
     }
   },
