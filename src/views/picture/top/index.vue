@@ -8,16 +8,17 @@
         :style="{ 'background-image': backgroundSvg }"
         ref="pictureRef"
       >
+        {{ backgroundSvg.slice(0, 300) }}
         <!-- 大标题 -->
         <div class="title">{{ pictureStore.title }}</div>
         <!-- 小标题 -->
         <div class="subtitle">{{ pictureStore.subtitle }}</div>
         <!-- 装饰小图片 -->
-        <div class="img-decoration-container">
+        <!-- <div class="img-decoration-container">
           <template v-for="item in decorationImg" :key="item.id">
             <img :src="item.src" alt="装饰小图" width="100px" height="100px" />
           </template>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 下方按钮 -->
@@ -43,27 +44,31 @@ import html2canvas from 'html2canvas'
 
 // 创建仓库实例
 let pictureStore = usePictureStore()
-
-// 图片实例
-let pictureRef = ref()
 // 是否开启浅色模式：true开启，false不开启（深色模式）
 let ModeColor = ref<boolean>(false)
+// 图片实例
+let pictureRef = ref()
+
 // 当前图片背景的花样
-let bgSvg = ref<string>('jigsaw')
+// let bgSvg = ref<string>('jigsaw')
 // 当前图片背景花样的颜色
-let bgSvgColor = ref<string>('FFFFFF')
+// let bgSvgColor = ref<string>('FFFFFF')
 // 当前图片背景花样的透明度
-let bgSvgOpacity = ref<number>(0.25)
-// 当前图片背景花样的具体样式（花样+颜色+透明度）
+// let bgSvgOpacity = ref<number>(0.25)
+// 当前图片背景花样的具体样式（花样+颜色+透明度）  +pictureStore.patternOpacity:加号可以把数字字符串（string）转为数字（number）
 let backgroundSvg = ref<string>(
-  getBackgroundSvg(bgSvg.value, bgSvgColor.value, bgSvgOpacity.value),
+  getBackgroundSvg(
+    pictureStore.pattern,
+    pictureStore.patternColor,
+    +pictureStore.patternOpacity,
+  ),
 )
 // 图片里的装饰小图
-let decorationImg = ref<any>([
-  { id: 0, src: '/src/assets/images/decorations/my-octocat.png' },
-])
+// let decorationImg = ref<any>([
+//   { id: 0, src: '/src/assets/images/decorations/my-octocat.png' },
+// ])
 // 图片里的装饰小图的宽度
-let decorationImgWidth = ref<number>(77)
+// let decorationImgWidth = ref<number>(77)
 
 // 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {

@@ -77,7 +77,7 @@
             type="color"
             id="pattern-color-selector"
             name="pattern-color-selector"
-            :value="pictureStore.patternsColor"
+            :value="pictureStore.patternColor"
             @input="
               changePatternColor(($event.target as HTMLInputElement).value)
             "
@@ -131,6 +131,7 @@
           class="btn"
           aria-label="none pattern button"
           data-pattern-value="none"
+          @click="changePattern('')"
         >
           空白
         </button>
@@ -140,6 +141,7 @@
             class="btn"
             :aria-label="item.aria_label"
             :data-pattern-value="item.data_pattern_value"
+            @click="changePattern(item.data_pattern_value)"
           >
             <img :src="item.src" :alt="item.alt" />
           </button>
@@ -287,7 +289,7 @@ function changeBorderRadius(borderRadius: string) {
 
 // 改变花样颜色
 function changePatternColor(patternColor: string) {
-  pictureStore.patternsColor = patternColor
+  pictureStore.patternColor = patternColor
 }
 
 // 改变花样大小
@@ -301,8 +303,8 @@ function changePatternOpacity(patternOpacity: string) {
 }
 
 // 改变花样
-function changePattern(patterns: string) {
-  pictureStore.patterns = patterns
+function changePattern(pattern: string) {
+  pictureStore.pattern = pattern
 }
 </script>
 

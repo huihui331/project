@@ -29,11 +29,17 @@
           class="btn"
           aria-label="no decorations"
           data-decoration-value="none"
+          @click="changeDecorationImgSrc('')"
         >
           空白
         </button>
         <template v-for="item in allDecorationImg" :key="item.id">
-          <button type="button" class="btn" :aria-label="item.aria_label">
+          <button
+            type="button"
+            class="btn"
+            :aria-label="item.aria_label"
+            @click="changeDecorationImgSrc(item.data_decotation_value)"
+          >
             <img :src="item.src" :alt="item.alt" />
           </button>
         </template>
@@ -253,10 +259,6 @@ function changeDecorationImgSrc(decorationImgSrc: string) {
         margin-top: 5px;
         margin-bottom: 22px;
       }
-    }
-
-    // 装饰图大小区域
-    .decorations-size-inputs {
     }
 
     // 装饰图种类区域

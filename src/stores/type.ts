@@ -18,8 +18,8 @@ export interface picParamterTs {
   borderSize: string // 图片边框大小
   borderColor: string // 图片边框颜色
   borderRadius: string // 图片边框圆角
-  patterns: string // 图片背景花样
-  patternsColor: string // 图片背景花样颜色
+  pattern: string // 图片背景花样
+  patternColor: string // 图片背景花样颜色
   patternOpacity: string // 图片背景花样的透明度
   patternSize: string // 图片背景花样的大小
 }
