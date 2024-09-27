@@ -12,6 +12,7 @@
           :value="pictureStore.title"
           @input="changeTitle(($event.target as HTMLInputElement).value)"
           aria-label="Title"
+          autocomplete="off"
         />
         <input
           type="text"
@@ -21,6 +22,7 @@
           :value="pictureStore.subtitle"
           @input="changeSubtitle(($event.target as HTMLInputElement).value)"
           aria-label="Subtitle"
+          autocomplete="off"
         />
       </div>
       <!-- 图片宽度、高度输入框，padding滑块 -->
@@ -390,6 +392,7 @@ function changeSubtitleSize(subtitleSize: string) {
   // 主体选项卡下方展示区域
   padding: 15px;
   animation: fadeEffect 1s; /* 透明度动画时长1s */
+
   .toolbox {
     box-sizing: border-box;
 

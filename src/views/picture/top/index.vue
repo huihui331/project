@@ -193,13 +193,14 @@ function download() {
       padding: var(--paddings) 0 0 0;
       button {
         width: 155px;
+        margin-right: 15px;
         &:nth-child(2) {
-          margin: 0px;
+          margin: 0px 15px 0px 0px;
         }
 
-        &:not(:last-child) {
-          margin-right: 15px;
-        }
+        // &:not(:last-child) {
+        //   margin-right: 15px;
+        // }
       }
     }
   }

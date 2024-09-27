@@ -433,6 +433,7 @@ function changePattern(patterns: string) {
         justify-content: center;
       }
 
+      // 背景颜色 + 边框颜色
       .bg-color-selectors {
         > div {
           margin-top: 0px;
@@ -440,20 +441,23 @@ function changePattern(patterns: string) {
         }
       }
 
+      // 边框大小 + 边框圆角
       .border-inputs {
         div {
-          margin-top: 0px;
-          margin-bottom: 0px;
+          margin-top: 5px;
+          margin-bottom: 5px;
         }
       }
 
+      // 花样颜色 + 花样大小 + 花样透明度
       .pattern-inputs {
         div {
-          margin-top: 0px;
-          margin-bottom: 0px;
+          margin-top: 5px;
+          margin-bottom: 10px;
         }
       }
 
+      // 花样
       .patterns-buttons {
         margin: auto;
         max-width: 550px;

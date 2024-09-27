@@ -26,7 +26,7 @@ const usePictureStore = defineStore('Picture', {
       patternSize: '100', // 背景花样大小
       patternOpacity: '0.25', // 背景花样透明度
       patterns: 'jigsaw', // 背景花样
-      docorationImgSrcSize: '100', // 图片里的装饰小图的大小
+      decorationImgSize: '100', // 图片里的装饰小图的大小
       decorationImgSrc: '/src/assets/images/decorations/my-octocat.png', // 图片里的装饰小图
     }
   },

@@ -14,7 +14,7 @@ export interface picParamterTs {
   padding: string // 图片内边距（把图片当成一个盒子，有padding，有margin）
   backgroundColor: string // 图片背景颜色
   decorationImgSrc: string // 装饰小图的src
-  docorationImgSrcSize: string // 装饰小图的大小
+  decorationImgSize: string // 装饰小图的大小
   borderSize: string // 图片边框大小
   borderColor: string // 图片边框颜色
   borderRadius: string // 图片边框圆角
