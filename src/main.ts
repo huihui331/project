@@ -9,6 +9,8 @@ import '@/styles/index.scss'
 import globalComponent from '@/components'
 // svg插件需要配置代码
 import 'virtual:svg-icons-register'
+// 引入html2canvas
+import html2canvas from 'html2canvas'
 
 const app = createApp(App)
 

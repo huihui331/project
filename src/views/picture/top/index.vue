@@ -6,11 +6,12 @@
       <div
         class="github-header-image"
         :style="{ 'background-image': backgroundSvg }"
+        ref="pictureRef"
       >
         <!-- 大标题 -->
-        <div class="title">Hey! I am ...</div>
+        <div class="title">{{ pictureStore.title }}</div>
         <!-- 小标题 -->
-        <div class="subtitle">Fullstack developer</div>
+        <div class="subtitle">{{ pictureStore.subtitle }}</div>
         <!-- 装饰小图片 -->
         <div class="img-decoration-container">
           <template v-for="item in decorationImg" :key="item.id">
@@ -22,7 +23,7 @@
     <!-- 下方按钮 -->
     <div class="options-container">
       <button type="button" class="dark-mode-button" @click="changeModeColor">
-        深色模式
+        {{ ModeColor ? '深色模式' : '浅色模式' }}
       </button>
       <button type="button" class="randomize-button">随机</button>
       <button type="button" class="download-button" @click="download">
@@ -36,7 +37,15 @@
 import { ref } from 'vue'
 // 引入获取图片背景花样的方法
 import { getBackgroundSvg } from '@/utils/backgroundSvg'
+// 引入仓库
+import usePictureStore from '@/stores/picture'
+import html2canvas from 'html2canvas'
 
+// 创建仓库实例
+let pictureStore = usePictureStore()
+
+// 图片实例
+let pictureRef = ref()
 // 是否开启浅色模式：true开启，false不开启（深色模式）
 let ModeColor = ref<boolean>(false)
 // 当前图片背景的花样
@@ -61,8 +70,25 @@ function changeModeColor() {
   ModeColor.value = !ModeColor.value
 }
 
-// 下载图片
-function download() {}
+// 下载图片   html2canvas可以将HTML元素渲染成Canvas，进而可以转换成图片
+function download() {
+  // 两个参数，第一个是dom节点（HTML元素），第二个是配置项
+  html2canvas(pictureRef.value, { backgroundColor: null })
+    .then((canvas) => {
+      // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
+      let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
+      let a = document.createElement('a') // 创建<a>标签
+      a.href = imageURL // 将a标签的href设置为图片的URL
+      a.download = 'github-header-image' // download属性为下载时文件的默认名称
+      a.click() // 通过模拟点击<a>元素的click事件来触发下载
+    })
+    .catch((error) => {
+      alert('下载失败')
+      console.log(new Error(error))
+    })
+}
+
+// 监视仓库里的textAlign，当其值为居中的时候，给当前页面变量decorationImg数组追加一个id不同，src相同的图片
 </script>
 
 <style scoped lang="scss">
