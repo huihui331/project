@@ -1,24 +1,54 @@
 <template>
   <div :class="{ box: true, lightMode: ModeColor == true }">
-    <!-- 上方制图 -->
-    <div class="header-image-container">
-      <!-- 画布，调整的就是它的样式，非常重要 -->
+    <!-- 上方制图，画布 -->
+    <div class="header-image-container" ref="canvasRef">
+      <!-- 图片，调整的就是它的样式，非常重要 -->
       <div
         class="github-header-image"
-        :style="{ 'background-image': backgroundSvg }"
         ref="pictureRef"
+        :style="{
+          height: pictureStore.height + 'px',
+          padding: pictureStore.padding + 'px',
+          'background-color': pictureStore.backgroundColor,
+          border:
+            pictureStore.borderSize +
+            'px ' +
+            'solid ' +
+            pictureStore.borderColor,
+          borderRadius: pictureStore.borderRadius + 'px',
+          'align-items': pictureStore.textAlign,
+          'background-image': backgroundSvg,
+          'background-size': pictureStore.patternSize + 'px',
+        }"
       >
-        {{ backgroundSvg.slice(0, 300) }}
         <!-- 大标题 -->
-        <div class="title">{{ pictureStore.title }}</div>
+        <div
+          class="title"
+          :style="{
+            color: pictureStore.titleColor,
+            fontSize: pictureStore.titleSize + 'px',
+            fontFamily: pictureStore.titleFont,
+          }"
+        >
+          {{ pictureStore.title }}
+        </div>
         <!-- 小标题 -->
-        <div class="subtitle">{{ pictureStore.subtitle }}</div>
+        <div
+          class="subtitle"
+          :style="{
+            color: pictureStore.subtitleColor,
+            fontSize: pictureStore.subtitleSize + 'px',
+            fontFamily: pictureStore.subtitleFont,
+          }"
+        >
+          {{ pictureStore.subtitle }}
+        </div>
         <!-- 装饰小图片 -->
-        <!-- <div class="img-decoration-container">
+        <div class="img-decoration-container">
           <template v-for="item in decorationImg" :key="item.id">
             <img :src="item.src" alt="装饰小图" width="100px" height="100px" />
           </template>
-        </div> -->
+        </div>
       </div>
     </div>
     <!-- 下方按钮 -->
@@ -35,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onMounted, reactive, computed } from 'vue'
 // 引入获取图片背景花样的方法
 import { getBackgroundSvg } from '@/utils/backgroundSvg'
 // 引入仓库
@@ -46,39 +76,81 @@ import html2canvas from 'html2canvas'
 let pictureStore = usePictureStore()
 // 是否开启浅色模式：true开启，false不开启（深色模式）
 let ModeColor = ref<boolean>(false)
+// 画布实例
+let canvasRef = ref()
 // 图片实例
 let pictureRef = ref()
-
-// 当前图片背景的花样
-// let bgSvg = ref<string>('jigsaw')
-// 当前图片背景花样的颜色
-// let bgSvgColor = ref<string>('FFFFFF')
-// 当前图片背景花样的透明度
-// let bgSvgOpacity = ref<number>(0.25)
 // 当前图片背景花样的具体样式（花样+颜色+透明度）  +pictureStore.patternOpacity:加号可以把数字字符串（string）转为数字（number）
 let backgroundSvg = ref<string>(
   getBackgroundSvg(
     pictureStore.pattern,
-    pictureStore.patternColor,
+    pictureStore.patternColor.slice(1),
     +pictureStore.patternOpacity,
   ),
 )
 // 图片里的装饰小图
-// let decorationImg = ref<any>([
-//   { id: 0, src: '/src/assets/images/decorations/my-octocat.png' },
-// ])
-// 图片里的装饰小图的宽度
-// let decorationImgWidth = ref<number>(77)
+let decorationImg = computed(() => [
+  {
+    id: 0,
+    src: `/src/assets/images/decorations/${pictureStore.decorationImgSrc}`,
+  },
+])
+// // 使用computed来创建一个响应式的引用，该引用与store中的title同步
+// let test = computed(() => pictureStore.title)
 
 // 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {
   ModeColor.value = !ModeColor.value
 }
 
+// 监视仓库里的width，它一改变就改变图片的宽度
+watch(
+  () => pictureStore.width,
+  (newValue) => {
+    // 在仓库里添加isWatchWidth变量的原因是我不希望一上来就监视width的变化就给图片的宽度赋值，这样会让我的响应式页面失灵，我希望宽度输入框改变值之后再改变图片的宽度，而不是一上来因为我给width赋画布宽度的值就给图片宽度赋值
+    if (!pictureStore.isWatchWidth) {
+      pictureStore.isWatchWidth = true
+    } else {
+      pictureRef.value.style.width = newValue + 'px'
+    }
+  },
+  { deep: false },
+)
+
+// 监视仓库里的pattern，patternColor，patternOpacity，注意getBackgroundSvg的第二个参数的颜色要把收集到的颜色#去掉
+watch(
+  () => ({
+    pattern: pictureStore.pattern,
+    patternColor: pictureStore.patternColor,
+    patternOpacity: pictureStore.patternOpacity,
+  }),
+  (newValue) => {
+    backgroundSvg.value = getBackgroundSvg(
+      newValue.pattern,
+      newValue.patternColor.slice(1),
+      +newValue.patternOpacity,
+    )
+    console.log(backgroundSvg.value)
+  },
+)
+
+// 监视仓库里的textAlign，当textAlign的值为flex-start和flex-end的时候，装饰小图只有一个，值为center的时候，装饰小图有两个
+
 // 下载图片   html2canvas可以将HTML元素渲染成Canvas，进而可以转换成图片
 function download() {
+  let cloneDom: any = pictureRef.value.cloneNode(true)
+  cloneDom.style.width = pictureStore.width + 'px'
+  cloneDom.style.transform = 'scale(1)'
+  // cloneDom.style.position = 'absolute'
+  // cloneDom.style.left = '0'
+  // cloneDom.style.top = '0'
+  cloneDom.style.zIndex = '-1'
+  document.querySelector('body')?.append(cloneDom)
+  console.log(cloneDom)
+
   // 两个参数，第一个是dom节点（HTML元素），第二个是配置项
-  html2canvas(pictureRef.value, { backgroundColor: null })
+  // html2canvas(pictureRef.value, { backgroundColor: null })
+  html2canvas(cloneDom, { backgroundColor: null })
     .then((canvas) => {
       // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
       let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
@@ -86,6 +158,7 @@ function download() {
       a.href = imageURL // 将a标签的href设置为图片的URL
       a.download = 'github-header-image' // download属性为下载时文件的默认名称
       a.click() // 通过模拟点击<a>元素的click事件来触发下载
+      document.querySelector('body')?.removeChild(cloneDom)
     })
     .catch((error) => {
       alert('下载失败')
@@ -93,7 +166,10 @@ function download() {
     })
 }
 
-// 监视仓库里的textAlign，当其值为居中的时候，给当前页面变量decorationImg数组追加一个id不同，src相同的图片
+onMounted(() => {
+  // 仓库里的width的初始宽度为刚打开网页的画布的宽度
+  pictureStore.width = canvasRef.value.clientWidth
+})
 </script>
 
 <style scoped lang="scss">
@@ -105,11 +181,14 @@ function download() {
   border-radius: 10px 10px 0px 0px;
   transition: 0.5s ease;
 
-  // 上方图片
+  // 画布
   .header-image-container {
     width: 100%;
     filter: drop-shadow(0px 0px 5px rgba(125, 125, 125, 0.5));
+
+    // 图片
     .github-header-image {
+      position: relative;
       margin: 0 auto;
       border: none;
       overflow: hidden;
@@ -119,7 +198,6 @@ function download() {
       padding: 25px;
       position: relative;
       display: flex;
-      align-items: flex-start;
       justify-content: center;
       flex-direction: column;
       background-color: #4078c0;
@@ -141,8 +219,12 @@ function download() {
         font-family: 'Courier New', Courier, monospace;
       }
 
-      img {
-        transition: 0.15s;
+      // img {
+      //   transition: 0.15s;
+      // }
+
+      // 装饰小图
+      .img-decoration-container {
       }
     }
   }
@@ -194,6 +276,17 @@ function download() {
 @media screen and (min-width: 768px) {
   .box {
     padding: var(--paddings);
+
+    // 画布
+    .header-image-container {
+      .github-header-image {
+        .subtitle {
+          margin-top: 6px;
+        }
+      }
+    }
+
+    // 下方按钮
     .options-container {
       padding: var(--paddings) 0 0 0;
       button {
@@ -202,10 +295,6 @@ function download() {
         &:nth-child(2) {
           margin: 0px 15px 0px 0px;
         }
-
-        // &:not(:last-child) {
-        //   margin-right: 15px;
-        // }
       }
     }
   }

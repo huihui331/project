@@ -124,7 +124,7 @@
           class="left-align-button btn"
           aria-label="标题左对齐"
           data-align-value="flex-start"
-          @click="changeTextAlign('start')"
+          @click="changeTextAlign('flex-start')"
         >
           <img
             src="../../../../assets/images/icons/left-align.svg"
@@ -154,7 +154,7 @@
           class="right-align-button btn"
           aria-label="标题右对齐"
           data-align-value="flex-end"
-          @click="changeTextAlign('end')"
+          @click="changeTextAlign('flex-end')"
         >
           <img
             src="../../../../assets/images/icons/right-align.svg"

@@ -131,7 +131,7 @@
           class="btn"
           aria-label="none pattern button"
           data-pattern-value="none"
-          @click="changePattern('')"
+          @click="changePattern('', '100')"
         >
           空白
         </button>
@@ -141,7 +141,9 @@
             class="btn"
             :aria-label="item.aria_label"
             :data-pattern-value="item.data_pattern_value"
-            @click="changePattern(item.data_pattern_value)"
+            @click="
+              changePattern(item.data_pattern_value, item.initPatternSize)
+            "
           >
             <img :src="item.src" :alt="item.alt" />
           </button>
@@ -166,6 +168,7 @@ let patternsData = reactive([
     data_pattern_value: 'jigsaw',
     src: '/src/assets/images/patterns/jigsaw-thumbnail.svg',
     alt: 'jigsaw花样',
+    initPatternSize: '100',
   },
   {
     id: 2,
@@ -173,6 +176,7 @@ let patternsData = reactive([
     data_pattern_value: 'github',
     src: '/src/assets/images/patterns/github-thumbnail.svg',
     alt: 'github花样',
+    initPatternSize: '40',
   },
   {
     id: 3,
@@ -180,6 +184,7 @@ let patternsData = reactive([
     data_pattern_value: 'endless-constellation',
     src: '/src/assets/images/patterns/endless-constellation-thumbnail.svg',
     alt: 'endless-constellation花样',
+    initPatternSize: '250',
   },
   {
     id: 4,
@@ -187,6 +192,7 @@ let patternsData = reactive([
     data_pattern_value: 'floating-cogs',
     src: '/src/assets/images/patterns/floating-cogs-thumbnail.svg',
     alt: 'floating-cogs花样',
+    initPatternSize: '350',
   },
   {
     id: 5,
@@ -194,6 +200,7 @@ let patternsData = reactive([
     data_pattern_value: 'bubbles',
     src: '/src/assets/images/patterns/bubbles-thumbnail.svg',
     alt: 'bubbles花样',
+    initPatternSize: '200',
   },
   {
     id: 6,
@@ -201,6 +208,7 @@ let patternsData = reactive([
     data_pattern_value: 'lisbon',
     src: '/src/assets/images/patterns/lisbon-thumbnail.svg',
     alt: 'lisbon花样',
+    initPatternSize: '80',
   },
   {
     id: 7,
@@ -208,6 +216,7 @@ let patternsData = reactive([
     data_pattern_value: 'temple',
     src: '/src/assets/images/patterns/temple-thumbnail.svg',
     alt: 'temple花样',
+    initPatternSize: '100',
   },
   {
     id: 8,
@@ -215,6 +224,7 @@ let patternsData = reactive([
     data_pattern_value: 'topography',
     src: '/src/assets/images/patterns/topography-thumbnail.svg',
     alt: 'topography花样',
+    initPatternSize: '500',
   },
   {
     id: 9,
@@ -222,6 +232,7 @@ let patternsData = reactive([
     data_pattern_value: 'falling-triangles',
     src: '/src/assets/images/patterns/falling-triangles-thumbnail.svg',
     alt: 'falling-triangles花样',
+    initPatternSize: '36',
   },
   {
     id: 10,
@@ -229,6 +240,7 @@ let patternsData = reactive([
     data_pattern_value: 'glamorous',
     src: '/src/assets/images/patterns/glamorous-thumbnail.svg',
     alt: 'glamorous花样',
+    initPatternSize: '135',
   },
   {
     id: 11,
@@ -236,6 +248,7 @@ let patternsData = reactive([
     data_pattern_value: 'i-like-food',
     src: '/src/assets/images/patterns/i-like-food-thumbnail.svg',
     alt: 'i-like-food花样',
+    initPatternSize: '225',
   },
   {
     id: 12,
@@ -243,6 +256,7 @@ let patternsData = reactive([
     data_pattern_value: 'leaf',
     src: '/src/assets/images/patterns/leaf-thumbnail.svg',
     alt: 'leaf花样',
+    initPatternSize: '80',
   },
   {
     id: 13,
@@ -250,6 +264,7 @@ let patternsData = reactive([
     data_pattern_value: 'circuit-board',
     src: '/src/assets/images/patterns/circuit-board-thumbnail.svg',
     alt: 'circuit-board花样',
+    initPatternSize: '304',
   },
   {
     id: 14,
@@ -257,6 +272,7 @@ let patternsData = reactive([
     data_pattern_value: 'overlapping-circles',
     src: '/src/assets/images/patterns/overlapping-circles-thumbnail.svg',
     alt: 'overlapping-circles花样',
+    initPatternSize: '80',
   },
   {
     id: 15,
@@ -264,6 +280,7 @@ let patternsData = reactive([
     data_pattern_value: 'endless-clouds',
     src: '/src/assets/images/patterns/endless-clouds-thumbnail.svg',
     alt: 'endless-clouds花样',
+    initPatternSize: '112',
   },
 ])
 
@@ -303,8 +320,11 @@ function changePatternOpacity(patternOpacity: string) {
 }
 
 // 改变花样
-function changePattern(pattern: string) {
+function changePattern(pattern: string, initPatternSize?: string) {
   pictureStore.pattern = pattern
+  if (initPatternSize) {
+    pictureStore.patternSize = initPatternSize
+  }
 }
 </script>
 

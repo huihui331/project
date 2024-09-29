@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>菜鸟教程(runoob.com)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <style>
-    #overflowTest {
-      background: #4CAF50;
-      color: white;
-      padding: 15px;
-      width: 80%;
+    .float-left-box {
+      float: left;
+      /* 设置元素向左浮动 */
+      width: 100px;
+      /* 设置元素的宽度 */
       height: 100px;
-      overflow: scroll;
-      border: 1px solid #ccc;
+      /* 设置元素的高度 */
+      margin-right: 10px;
+      /* 设置元素右侧的外边距，以便与下一个元素之间有空隙 */
+      background-color: lightblue;
+      /* 设置元素的背景颜色 */
+      text-align: center;
+      /* 设置元素内文本的对齐方式 */
+      line-height: 100px;
+      /* 设置行高，使文本垂直居中 */
     }
   </style>
 </head>
 
 <body>
 
-  <div id="overflowTest">
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-    <p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>
-  </div>
+  <div class="float-left-box">Box 1</div>
+  <div class="float-left-box">Box 2</div>
+
 
 </body>
 

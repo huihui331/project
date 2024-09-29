@@ -8,3 +8,61 @@
   --main-font-familiy: "Red Hat Display", Arial, Helvetica, sans-serif;   
   --secondary-font-familiy: "Kalam";
 }
+
+// 自定义字体
+@font-face {
+  font-family: "Kalam";
+  src: url('/src/assets/fonts/Kalam-Regular.ttf');
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('/src/assets/fonts/Poppins-Regular.ttf');
+}
+@font-face {
+  font-family: "Athiti";
+  src: url('/src/assets/fonts/Athiti-Regular.ttf');
+}
+@font-face {
+  font-family: "MavenPro";
+  src: url('/src/assets/fonts/MavenPro-Regular.ttf');
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url('/src/assets/fonts/Ubuntu-Regular.ttf');
+}
+@font-face {
+  font-family: "Istokweb";
+  src: url('/src/assets/fonts/IstokWeb-Regular.ttf');
+}
+@font-face {
+  font-family: "Courgette";
+  src: url('/src/assets/fonts/Courgette-Regular.ttf');
+}
+@font-face {
+  font-family: "Quattrocento";
+  src: url('/src/assets/fonts/Quattrocento-Regular.ttf');
+}
+@font-face {
+  font-family: "DellaRespira";
+  src: url('/src/assets/fonts/DellaRespira-Regular.ttf');
+}
+@font-face {
+  font-family: "Lato";
+  src: url('/src/assets/fonts/Lato-Regular.ttf');
+}
+@font-face {
+  font-family: "Martel";
+  src: url('/src/assets/fonts/Martel-Regular.ttf');
+}
+@font-face {
+  font-family: "Lancelot";
+  src: url('/src/assets/fonts/Lancelot-Regular.ttf');
+}
+@font-face {
+  font-family: "Playball";
+  src: url('/src/assets/fonts/Playball-Regular.ttf');
+}
+@font-face {
+  font-family: "LifeSavers";
+  src: url('/src/assets/fonts/LifeSavers-Regular.ttf');
+}

@@ -22,4 +22,5 @@ export interface picParamterTs {
   patternColor: string // 图片背景花样颜色
   patternOpacity: string // 图片背景花样的透明度
   patternSize: string // 图片背景花样的大小
+  isWatchWidth: boolean // 是否开启对仓库中变量width的watch监视
 }
