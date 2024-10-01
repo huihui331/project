@@ -45,9 +45,48 @@
         </div>
         <!-- 装饰小图片 -->
         <div class="img-decoration-container">
-          <template v-for="item in decorationImg" :key="item.id">
-            <img :src="item.src" alt="装饰小图" width="100px" height="100px" />
-          </template>
+          <!-- <img
+            :src="
+              '/src/assets/images/decorations/' + pictureStore.decorationImgSrc
+            "
+            alt="装饰小图"
+            :style="{ width: pictureStore.decorationImgSize + 'px' }"
+            v-show="
+              !pictureStore.decorationImgsHidden &&
+              (pictureStore.textAlign == 'flex-start' ||
+                pictureStore.textAlign == 'center')
+            "
+          /> -->
+          <img
+            :src="
+              pictureStore.decorationImgSrc.length < 50
+                ? '/src/assets/images/decorations/' +
+                  pictureStore.decorationImgSrc
+                : pictureStore.decorationImgSrc
+            "
+            alt="装饰小图"
+            :style="{ width: pictureStore.decorationImgSize + 'px' }"
+            v-show="
+              !pictureStore.decorationImgsHidden &&
+              (pictureStore.textAlign == 'flex-start' ||
+                pictureStore.textAlign == 'center')
+            "
+          />
+          <img
+            :src="
+              pictureStore.decorationImgSrc.length < 50
+                ? '/src/assets/images/decorations/' +
+                  pictureStore.decorationImgSrc
+                : pictureStore.decorationImgSrc
+            "
+            alt="装饰小图"
+            :style="{ width: pictureStore.decorationImgSize + 'px' }"
+            v-show="
+              !pictureStore.decorationImgsHidden &&
+              (pictureStore.textAlign == 'flex-end' ||
+                pictureStore.textAlign == 'center')
+            "
+          />
         </div>
       </div>
     </div>
@@ -56,7 +95,9 @@
       <button type="button" class="dark-mode-button" @click="changeModeColor">
         {{ ModeColor ? '深色模式' : '浅色模式' }}
       </button>
-      <button type="button" class="randomize-button">随机</button>
+      <button type="button" class="randomize-button" @click="getRandomTheme">
+        随机
+      </button>
       <button type="button" class="download-button" @click="download">
         下载
       </button>
@@ -65,12 +106,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, reactive, computed } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 // 引入获取图片背景花样的方法
 import { getBackgroundSvg } from '@/utils/backgroundSvg'
+// 引入获取随机主题的方法
+import { randomTheme } from '@/utils/randomTheme'
 // 引入仓库
 import usePictureStore from '@/stores/picture'
 import html2canvas from 'html2canvas'
+import { title } from 'process'
 
 // 创建仓库实例
 let pictureStore = usePictureStore()
@@ -88,15 +132,8 @@ let backgroundSvg = ref<string>(
     +pictureStore.patternOpacity,
   ),
 )
-// 图片里的装饰小图
-let decorationImg = computed(() => [
-  {
-    id: 0,
-    src: `/src/assets/images/decorations/${pictureStore.decorationImgSrc}`,
-  },
-])
-// // 使用computed来创建一个响应式的引用，该引用与store中的title同步
-// let test = computed(() => pictureStore.title)
+// 记录产生的随机数的上一次的random
+let lastRandom = <number>(0)
 
 // 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {
@@ -130,11 +167,9 @@ watch(
       newValue.patternColor.slice(1),
       +newValue.patternOpacity,
     )
-    console.log(backgroundSvg.value)
   },
+  { deep: true },
 )
-
-// 监视仓库里的textAlign，当textAlign的值为flex-start和flex-end的时候，装饰小图只有一个，值为center的时候，装饰小图有两个
 
 // 下载图片   html2canvas可以将HTML元素渲染成Canvas，进而可以转换成图片
 function download() {
@@ -146,24 +181,55 @@ function download() {
   // cloneDom.style.top = '0'
   cloneDom.style.zIndex = '-1'
   document.querySelector('body')?.append(cloneDom)
-  console.log(cloneDom)
 
   // 两个参数，第一个是dom节点（HTML元素），第二个是配置项
   // html2canvas(pictureRef.value, { backgroundColor: null })
-  html2canvas(cloneDom, { backgroundColor: null })
-    .then((canvas) => {
-      // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
-      let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
-      let a = document.createElement('a') // 创建<a>标签
-      a.href = imageURL // 将a标签的href设置为图片的URL
-      a.download = 'github-header-image' // download属性为下载时文件的默认名称
-      a.click() // 通过模拟点击<a>元素的click事件来触发下载
-      document.querySelector('body')?.removeChild(cloneDom)
-    })
-    .catch((error) => {
-      alert('下载失败')
-      console.log(new Error(error))
-    })
+  // html2canvas(cloneDom, { backgroundColor: null })
+  //   .then((canvas) => {
+  //     // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
+  //     let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
+  //     let a = document.createElement('a') // 创建<a>标签
+  //     a.href = imageURL // 将a标签的href设置为图片的URL
+  //     a.download = 'github-header-image' // download属性为下载时文件的默认名称
+  //     a.click() // 通过模拟点击<a>元素的click事件来触发下载
+  //     document.querySelector('body')?.removeChild(cloneDom)
+  //   })
+  //   .catch((error) => {
+  //     alert('下载失败')
+  //     console.log(new Error(error))
+  //   })
+}
+
+// 获得随机主题
+function getRandomTheme() {
+  let { theme, random } = randomTheme(lastRandom)
+  lastRandom = random // 更新上一次的random记录
+  if (theme.decoration == '') {
+    pictureStore.decorationImgsHidden = true
+  } else {
+    pictureStore.decorationImgsHidden = false
+  }
+  // 背景颜色
+  pictureStore.backgroundColor = theme.background
+  // 大标题
+  pictureStore.titleColor = theme.title
+  pictureStore.titleFont = theme.titleFont ?? 'MavenPro'
+  // 小标题
+  pictureStore.subtitleColor = theme.subtitle
+  pictureStore.subtitleFont = theme.subtitleFont ?? 'Kalam'
+  // 边框
+  pictureStore.borderColor = theme.border
+  pictureStore.borderSize = theme.borderSize + ''
+  pictureStore.borderRadius = theme.borderRadius + ''
+  // 文字排版
+  pictureStore.textAlign = theme.textAlign
+  // 装饰小图
+  pictureStore.decorationImgSrc = theme.decoration
+  pictureStore.decorationImgSize = theme.decorationSize + ''
+  // 花样
+  pictureStore.pattern = theme.pattern
+  pictureStore.patternColor = theme.patternColor
+  pictureStore.patternOpacity = theme.patternOpacity + ''
 }
 
 onMounted(() => {
@@ -225,6 +291,23 @@ onMounted(() => {
 
       // 装饰小图
       .img-decoration-container {
+        img {
+          position: absolute;
+
+          &:first-child {
+            left: auto;
+            right: 25px;
+            bottom: calc(50%);
+            transform: translateY(50%);
+          }
+
+          &:last-child {
+            left: 25px;
+            right: auto;
+            bottom: calc(50%);
+            transform: translateY(50%);
+          }
+        }
       }
     }
   }

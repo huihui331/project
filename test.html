@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+// 假设 patternsData 是一个包含多个对象的数组，每个对象都有 data_pattern_value 和 initPatternSize 属性
+const patternsData = [
+{ data_pattern_value: 'sunny-day', initPatternSize: 100 },
+{ data_pattern_value: 'endless-clouds', initPatternSize: 112 },
+// ... 其他对象
+];
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .float-left-box {
-      float: left;
-      /* 设置元素向左浮动 */
-      width: 100px;
-      /* 设置元素的宽度 */
-      height: 100px;
-      /* 设置元素的高度 */
-      margin-right: 10px;
-      /* 设置元素右侧的外边距，以便与下一个元素之间有空隙 */
-      background-color: lightblue;
-      /* 设置元素的背景颜色 */
-      text-align: center;
-      /* 设置元素内文本的对齐方式 */
-      line-height: 100px;
-      /* 设置行高，使文本垂直居中 */
-    }
-  </style>
-</head>
+// 定义一个变量 value，其值为你要匹配的模式
+const value = 'endless-clouds';
 
-<body>
+// 使用数组的 find 方法找到第一个匹配的对象
+const matchingPattern = patternsData.find(pattern => pattern.data_pattern_value === value);
 
-  <div class="float-left-box">Box 1</div>
-  <div class="float-left-box">Box 2</div>
+// 如果找到了匹配的对象，则获取它的 initPatternSize 属性
+// 否则，matchingPattern 将是 undefined，因此我们需要一个默认值或进行条件检查
+const initPatternSize = matchingPattern ? matchingPattern.initPatternSize : undefined;
+// 或者，如果你想要一个默认值（比如 0），可以这样做：
+// const initPatternSize = matchingPattern ? matchingPattern.initPatternSize : 0;
 
+// 注意：此时 matchingPattern 变量实际上是指向匹配对象的引用，
+// 而 initPatternSize 变量才是你想要的 initPatternSize 的值。
+// 如果你只想让某个变量直接是 initPatternSize 的值，那么你应该直接使用 initPatternSize 变量。
 
-</body>
+// 输出 initPatternSize 的值
+console.log(initPatternSize); // 输出: 112（如果找到了匹配项）
 
-</html>
+// 如果你确实想要一个变量（比如 matchingPatternValue）直接持有 initPatternSize 的值，
+// 你可以这样做，但这样做通常不是最佳实践，因为它可能会导致代码混淆：
+const matchingPatternValue = initPatternSize; // 此时 matchingPatternValue 就是 initPatternSize 的值
+console.log(matchingPatternValue); // 输出与 initPatternSize 相同

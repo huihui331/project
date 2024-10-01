@@ -131,7 +131,7 @@
           class="btn"
           aria-label="none pattern button"
           data-pattern-value="none"
-          @click="changePattern('', '100')"
+          @click="changePattern('')"
         >
           空白
         </button>
@@ -141,9 +141,7 @@
             class="btn"
             :aria-label="item.aria_label"
             :data-pattern-value="item.data_pattern_value"
-            @click="
-              changePattern(item.data_pattern_value, item.initPatternSize)
-            "
+            @click="changePattern(item.data_pattern_value)"
           >
             <img :src="item.src" :alt="item.alt" />
           </button>
@@ -154,7 +152,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 // 引入仓库
 import usePictureStore from '@/stores/picture'
 
@@ -320,12 +318,20 @@ function changePatternOpacity(patternOpacity: string) {
 }
 
 // 改变花样
-function changePattern(pattern: string, initPatternSize?: string) {
+function changePattern(pattern: string) {
   pictureStore.pattern = pattern
-  if (initPatternSize) {
-    pictureStore.patternSize = initPatternSize
-  }
 }
+
+// 监视花样的改变，一改变就设置花样的初始大小
+watch(
+  () => pictureStore.pattern,
+  (newValue) => {
+    let size = patternsData.find(
+      (item) => item.data_pattern_value == newValue,
+    )?.initPatternSize
+    changePatternSize(size ?? '100') // 如果有size，就传size的值，否则就传'100'
+  },
+)
 </script>
 
 <style scoped lang="scss">

@@ -46,7 +46,7 @@ import Filings from './views/filings/index.vue'
   }
 
   .right {
-    padding: 50px 15px 120px 15px;
+    padding: 50px 18px 120px 18px;
   }
 }
 // 电脑端

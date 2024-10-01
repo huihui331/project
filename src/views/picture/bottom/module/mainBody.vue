@@ -508,12 +508,13 @@ function changeSubtitleSize(subtitleSize: string) {
 // 电脑端
 @media screen and (min-width: 768px) {
   .main {
-    padding: 15px 15px 5px 15px;
+    padding: 12px 15px 5px 15px;
     .toolbox {
       > div {
         justify-content: center;
       }
 
+      // 大小标题输入框
       .text-inputs {
         input {
           width: calc(50% - 7.5px);
@@ -523,20 +524,29 @@ function changeSubtitleSize(subtitleSize: string) {
         }
       }
 
+      // 图片宽度、高度输入框，padding滑块
       .size-inputs {
+        margin-bottom: 10px;
         > div {
+          margin-bottom: 10px;
           input {
             margin-bottom: 0px;
           }
         }
       }
 
+      // 颜色选择器：大标题颜色 + 背景色 + 小标题颜色
       .color-selectors-container {
         div {
           margin-bottom: 0px;
         }
       }
 
+      // 图片中文字的排版
+      .align-buttons {
+      }
+
+      // 大小标题的字体类型
       .font-selectors-container {
         div {
           margin-bottom: 5px;
@@ -544,11 +554,12 @@ function changeSubtitleSize(subtitleSize: string) {
         }
       }
 
+      // 标题文字大小调节：大标题 + 小标题
       .font-size-inputs {
         div {
           margin-right: 15px;
           margin-top: 0px;
-          margin-bottom: 0px;
+          margin-bottom: 5px;
         }
       }
     }

@@ -9,12 +9,14 @@ export interface picParamterTs {
   subtitleFont: string // 小标题字体类型
   subtitleSize: string // 小标题字体大小
   textAlign: string // 标题（大 + 小标题）对齐方式（居左、居中、居右）
+  isWatchWidth: boolean // 是否开启对仓库中变量width的watch监视
   width: string // 图片宽度
   height: string // 图片高度
   padding: string // 图片内边距（把图片当成一个盒子，有padding，有margin）
   backgroundColor: string // 图片背景颜色
   decorationImgSrc: string // 装饰小图的src
-  decorationImgSize: string // 装饰小图的大小
+  decorationImgsHidden: boolean // 装饰小图是否全部隐藏  true：全部隐藏，false：不全部隐藏
+  decorationImgSize: string // 装饰小图的大小(其实是装饰小图的宽度，因为对于img，你只设置宽度，高度会等比例自动变化)
   borderSize: string // 图片边框大小
   borderColor: string // 图片边框颜色
   borderRadius: string // 图片边框圆角
@@ -22,5 +24,4 @@ export interface picParamterTs {
   patternColor: string // 图片背景花样颜色
   patternOpacity: string // 图片背景花样的透明度
   patternSize: string // 图片背景花样的大小
-  isWatchWidth: boolean // 是否开启对仓库中变量width的watch监视
 }

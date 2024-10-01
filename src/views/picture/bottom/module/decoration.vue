@@ -29,7 +29,7 @@
           class="btn"
           aria-label="no decorations"
           data-decoration-value="none"
-          @click="changeDecorationImgSrc('')"
+          @click="changeDecorationImgSrc('', true)"
         >
           空白
         </button>
@@ -38,7 +38,7 @@
             type="button"
             class="btn"
             :aria-label="item.aria_label"
-            @click="changeDecorationImgSrc(item.data_decotation_value)"
+            @click="changeDecorationImgSrc(item.data_decotation_value, false)"
           >
             <img :src="item.src" :alt="item.alt" />
           </button>
@@ -54,6 +54,8 @@
             id="decoration-upload-input"
             class="btn"
             aria-label="Upload decoration"
+            @change="uploadPicture"
+            ref="uploadRef"
           />
         </div>
         <!-- <div class="preview-decoration" alt="Preview uploaded decoration"></div> -->
@@ -95,6 +97,8 @@ import usePictureStore from '@/stores/picture'
 
 // 仓库实例
 let pictureStore = usePictureStore()
+// 上传图片输入框实例
+let uploadRef = ref()
 // 装饰小图种类数据
 let allDecorationImg = reactive([
   {
@@ -224,8 +228,22 @@ function changeDecorationImgSize(decorationImgSize: string) {
 }
 
 // 改变装饰小图
-function changeDecorationImgSrc(decorationImgSrc: string) {
+function changeDecorationImgSrc(
+  decorationImgSrc: string,
+  decorationImgsHidden: boolean,
+) {
   pictureStore.decorationImgSrc = decorationImgSrc
+  pictureStore.decorationImgsHidden = decorationImgsHidden
+}
+
+// 上传图片
+function uploadPicture() {
+  let reader = new FileReader()
+  reader.readAsDataURL(uploadRef.value.files[0])
+  reader.onload = function (e) {
+    pictureStore.decorationImgsHidden = false // 用户点击了空白，然后再上传图片，此时要让图片显示
+    pictureStore.decorationImgSrc = reader.result as string
+  }
 }
 </script>
 
