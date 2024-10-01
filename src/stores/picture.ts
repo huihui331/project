@@ -27,11 +27,8 @@ const usePictureStore = defineStore('Picture', {
       patternOpacity: '0.25', // 背景花样透明度
       pattern: 'jigsaw', // 背景花样
       decorationImgSize: '77', // 图片里的装饰小图的大小
-      // decorationImgSrc: '@/assets/images/decorations/my-octocat.png', // 图片里的装饰小图
       decorationImgSrc: 'my-octocat.png', // 图片里的装饰小图
       decorationImgsHidden: false, // 装饰小图是否全部隐藏  true：全部隐藏，false：不全部隐藏
-      // decorationImgLeftShow: false, // 左装饰小图是否显示  true：显示，fasle：不显示
-      // decorationImgRightShow: true, // 右装饰小图是否显示  true：显示，fasle：不显示
       isWatchWidth: false, // 是否开启对仓库中变量width的watch监视    false：默认不开启
     }
   },

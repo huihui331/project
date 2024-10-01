@@ -54,7 +54,7 @@
             id="decoration-upload-input"
             class="btn"
             aria-label="Upload decoration"
-            @change="uploadPicture"
+            @change="uploadPicture()"
             ref="uploadRef"
           />
         </div>
@@ -240,9 +240,10 @@ function changeDecorationImgSrc(
 function uploadPicture() {
   let reader = new FileReader()
   reader.readAsDataURL(uploadRef.value.files[0])
-  reader.onload = function (e) {
+  reader.onload = function () {
     pictureStore.decorationImgsHidden = false // 用户点击了空白，然后再上传图片，此时要让图片显示
     pictureStore.decorationImgSrc = reader.result as string
+    uploadRef.value.value = '' // 记得把上传文件的input的值清空，不然无法再次上传同一张照片
   }
 }
 </script>
