@@ -90,7 +90,8 @@ watch(
   (newValue) => {
     // 在仓库里添加isWatchWidth变量的原因是我不希望一上来就监视width的变化就给图片的宽度赋值，这样会让我的响应式页面失灵，我希望宽度输入框改变值之后再改变图片的宽度，而不是一上来因为我给width赋画布宽度的值就给图片宽度赋值
     if (!pictureStore.isWatchWidth) {
-      pictureStore.isWatchWidth = true
+      // pictureStore.isWatchWidth = true
+      pictureStore.IsWatchWidth()
     } else {
       pictureRef.value.style.width = newValue + 'px'
     }
@@ -117,7 +118,7 @@ function download() {
       a.href = imageURL
       a.download = 'github-header-image'
       a.click()
-      pictureStore.DownloadPicture()
+      pictureStore.DownloadPicture() // 下载结束
     })
     .catch((error) => {
       alert('下载失败')

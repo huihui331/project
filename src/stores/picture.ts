@@ -34,6 +34,11 @@ const usePictureStore = defineStore('Picture', {
     }
   },
   actions: {
+    // 开启/关闭对width的监视
+    IsWatchWidth() {
+      this.isWatchWidth = !this.isWatchWidth
+    },
+    // 下载图片
     DownloadPicture() {
       this.download = !this.download
     },

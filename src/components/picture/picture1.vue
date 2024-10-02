@@ -89,19 +89,14 @@ watch(
   (newValue) => {
     // 在仓库里添加isWatchWidth变量的原因是我不希望一上来就监视width的变化就给图片的宽度赋值，这样会让我的响应式页面失灵，我希望宽度输入框改变值之后再改变图片的宽度，而不是一上来因为我给width赋画布宽度的值就给图片宽度赋值
     if (!pictureStore.isWatchWidth) {
-      pictureStore.isWatchWidth = true
+      // pictureStore.isWatchWidth = true
+      pictureStore.IsWatchWidth()
     } else {
       pictureRef.value.style.width = newValue + 'px'
     }
   },
   { deep: false },
 )
-
-// onMounted(() => {
-//   // clientWidth 属性是一个只读属性,它返回该元素的像素宽度,宽度包含内边距(padding),不包含边框(border),外边距(margin)和滚动条,是一个整数,单位是像素 px。
-//   // 仓库里的width的初始宽度为刚打开网页的画布的宽度
-//   pictureStore.width = canvasRef.value.clientWidth
-// })
 </script>
 
 <style scoped lang="scss">

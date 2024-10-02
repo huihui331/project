@@ -14,19 +14,19 @@
       <p>欢迎反馈您的问题，或者提出宝贵意见，让我们一起变得更好！</p>
       <br />
       <div>
-        <form>
+        <!-- 在HTML表单中，每个input和textarea中都有一个name属性，这个name属性的值会在表单提交的时候充当键（key）的角色，用户在元素中输入的值则充当值（value）的角色 -->
+        <!-- 当表单被提交的时候，这些键值对会被组合起来，并通过HTTP请求发送到服务器 -->
+        <form action="" method="POST">
           <input
             type="text"
             name="name"
             placeholder="姓名"
-            v-model="formData.name"
             autocomplete="off"
           />
           <input
             type="email"
             name="email"
             placeholder="邮箱"
-            v-model="formData.email"
             autocomplete="off"
           />
           <br />
@@ -35,29 +35,17 @@
             cols="30"
             rows="10"
             placeholder="请输入1000字以内的描述，如有更多内容请分多次提交"
-            v-model="formData.message"
             autocomplete="off"
           ></textarea>
           <br />
-          <button class="btn" @click="submit">发送</button>
+          <button class="btn" type="submit">发送</button>
         </form>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { reactive } from 'vue'
-
-let formData = reactive({
-  name: '',
-  email: '',
-  message: '',
-})
-
-// 提交反馈的问题
-function submit() {}
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 .modal {
