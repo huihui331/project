@@ -35,6 +35,7 @@
             name="width-input"
             id="width-input"
             placeholder="宽度"
+            autocomplete="off"
             :value="pictureStore.width"
             @input="changeWidth(($event.target as HTMLInputElement).value)"
           />
@@ -47,6 +48,7 @@
             name="height-input"
             id="height-input"
             placeholder="高度"
+            autocomplete="off"
             :value="pictureStore.height"
             @input="changeHeight(($event.target as HTMLInputElement).value)"
           />

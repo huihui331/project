@@ -3,9 +3,10 @@
     <!-- 上方制图，画布 -->
     <div class="header-image-container" ref="canvasRef">
       <!-- 图片1，用来给用户展示 -->
-      <Picture :backgroundSvg="backgroundSvg" ref="pictureRef1"></Picture>
-      <!-- 图片2，不展示，但是下载图片用的它 -->
-      <Picture :backgroundSvg="backgroundSvg" ref="pictureRef2"></Picture>
+      <Picture1
+        :backgroundSvg="backgroundSvg"
+        :style="{ zoom: `${zoom}` }"
+      ></Picture1>
     </div>
     <!-- 下方按钮 -->
     <div class="options-container">
@@ -20,6 +21,8 @@
       </button>
     </div>
   </div>
+  <!-- 图片2，不展示，但是下载图片用的它 -->
+  <Picture2 :backgroundSvg="backgroundSvg"></Picture2>
 </template>
 
 <script setup lang="ts">
@@ -48,34 +51,25 @@ let backgroundSvg = ref<string>(
 let lastRandom = <number>0
 // 画布实例
 let canvasRef = ref()
-// 图片1的组件实例
-let pictureRef1 = ref()
-// 图片2的组件实例
-let pictureRef2 = ref()
 // 图片的缩放倍数
-let scale = ref<number>(1)
+let zoom = ref<number>(1)
 
 // 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {
   ModeColor.value = !ModeColor.value
 }
 
-// 监视仓库里的width，如果图片的宽度超过画布初始宽度，就进行缩放，但是下载的还是缩放前的图
-// watch(
-//   () => pictureStore.width,
-//   (newValue) => {
-//     // 在仓库里添加isWatchWidth变量的原因是我不希望一上来就监视width的变化就给图片的宽度赋值，这样会让我的响应式页面失灵，我希望宽度输入框改变值之后再改变图片的宽度，而不是一上来因为我给width赋画布宽度的值就给图片宽度赋值
-//     if (!pictureStore.isWatchWidth) {
-//       pictureStore.isWatchWidth = true
-//     } else {
-//       pictureRef.value.style.width = newValue + 'px'
-//       if (pictureStore.width > canvasRef.value.clientWidth) {
-//         scale.value = canvasRef.value.clientWidth / +newValue
-//       }
-//     }
-//   },
-//   { deep: false },
-// )
+// 监视仓库里的width，如果图片1的宽度超过画布初始宽度，就进行缩放，但是图片2不缩放（隐藏了，用户看不见），下载的时候用图片2
+watch(
+  () => pictureStore.width,
+  (newValue) => {
+    if (pictureStore.width > canvasRef.value.clientWidth) {
+      zoom.value = canvasRef.value.clientWidth / +newValue
+    } else {
+      zoom.value = 1
+    }
+  },
+)
 
 // 监视仓库里的pattern，patternColor，patternOpacity，注意getBackgroundSvg的第二个参数的颜色要把收集到的颜色#去掉
 watch(
@@ -95,43 +89,8 @@ watch(
 )
 
 // 下载图片   html2canvas可以将HTML元素渲染成Canvas，进而可以转换成图片
-function download() {
-  // let cloneDom: any = pictureRef.value.cloneNode(true)
-  // cloneDom.style.width = pictureStore.width + 'px'
-  // cloneDom.style.transform = 'scale(1)'
-  // cloneDom.style.position = 'absolute'
-  // cloneDom.style.left = '0'
-  // cloneDom.style.top = '0'
-  // cloneDom.style.zIndex = '-1'
-  // document.querySelector('body')?.append(cloneDom)
-  // 两个参数，第一个是dom节点（HTML元素），第二个是配置项
-  // html2canvas(pictureRef.value, { backgroundColor: null })
-  //   .then((canvas) => {
-  //     // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
-  //     let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
-  //     let a = document.createElement('a') // 创建<a>标签
-  //     a.href = imageURL // 将a标签的href设置为图片的URL
-  //     a.download = 'github-header-image' // download属性为下载时文件的默认名称
-  //     a.click() // 通过模拟点击<a>元素的click事件来触发下载
-  //   })
-  //   .catch((error) => {
-  //     alert('下载失败')
-  //     console.log(new Error(error))
-  //   })
-  // html2canvas(cloneDom, { backgroundColor: null })
-  // .then((canvas) => {
-  //   // console.log(canvas) // 返回值为canvas元素，该元素包含了被渲染的HTML内容  <canvas width="632" height="400" style="width: 316px; height: 200px;">
-  //   let imageURL = canvas.toDataURL('image/png') // 将Canvas转换成PNG格式的图片URL
-  //   let a = document.createElement('a') // 创建<a>标签
-  //   a.href = imageURL // 将a标签的href设置为图片的URL
-  //   a.download = 'github-header-image' // download属性为下载时文件的默认名称
-  //   a.click() // 通过模拟点击<a>元素的click事件来触发下载
-  //   document.querySelector('body')?.removeChild(cloneDom)
-  // })
-  // .catch((error) => {
-  //   alert('下载失败')
-  //   console.log(new Error(error))
-  // })
+async function download() {
+  pictureStore.DownloadPicture()
 }
 
 // 获得随机主题

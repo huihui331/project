@@ -24,4 +24,5 @@ export interface picParamterTs {
   patternColor: string // 图片背景花样颜色
   patternOpacity: string // 图片背景花样的透明度
   patternSize: string // 图片背景花样的大小
+  download: boolean // 用户点击下载时，download的值变为true，下载结束变为false
 }

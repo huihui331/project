@@ -30,9 +30,14 @@ const usePictureStore = defineStore('Picture', {
       decorationImgSrc: 'my-octocat.png', // 图片里的装饰小图
       decorationImgsHidden: false, // 装饰小图是否全部隐藏  true：全部隐藏，false：不全部隐藏
       isWatchWidth: false, // 是否开启对仓库中变量width的watch监视    false：默认不开启
+      download: false, // 用户点击下载时，download的值变为true，下载结束变为false
     }
   },
-  actions: {},
+  actions: {
+    DownloadPicture() {
+      this.download = !this.download
+    },
+  },
   getters: {},
 })
 
