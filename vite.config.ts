@@ -2,12 +2,12 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
-import postCssPxToRem from 'postcss-pxtorem'
 // 引入svg需要的插件
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './', // 打包的静态资源引用路径
   plugins: [
     vue(),
     createSvgIconsPlugin({
@@ -17,6 +17,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      '@assets': path.join(__dirname, 'src/assets'),
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },

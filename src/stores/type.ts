@@ -9,6 +9,7 @@ export interface picParamterTs {
   subtitleFont: string // 小标题字体类型
   subtitleSize: string // 小标题字体大小
   textAlign: string // 标题（大 + 小标题）对齐方式（居左、居中、居右）
+  templateType: string // 模板类型（standard-标准, vertical-垂直, horizontal-水平, centered-居中, minimal-简约）
   isWatchWidth: boolean // 是否开启对仓库中变量width的watch监视
   width: string // 图片宽度
   height: string // 图片高度

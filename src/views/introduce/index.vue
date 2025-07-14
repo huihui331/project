@@ -34,8 +34,9 @@
         </li>
         <li><p>2. 在你的文档或网页中进行使用</p></li>
         <li><p>3. 把图片上传到服务器或者项目的资源目录中</p></li>
+        <li><p>4. 在公众号上发布一篇文章时，可以插入图片</p></li>
         <li>
-          <p>4. Markdown添加实例:</p>
+          <p>5. Markdown添加实例:</p>
           <p class="code"><code>![Header](./your-image-name.png)</code></p>
         </li>
       </ul>

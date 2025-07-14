@@ -21,6 +21,19 @@
           </output>
         </div>
       </div>
+
+      <!-- 装饰图分类Tabs -->
+      <div class="decoration-categories">
+        <button
+          v-for="category in categories"
+          :key="category.id"
+          :class="['category-tab', { active: activeCategory === category.id }]"
+          @click="activeCategory = category.id"
+        >
+          {{ category.name }}
+        </button>
+      </div>
+
       <!-- 装饰小图种类 -->
       <div class="decorations-buttons">
         装饰图：
@@ -33,7 +46,7 @@
         >
           空白
         </button>
-        <template v-for="item in allDecorationImg" :key="item.id">
+        <template v-for="item in filteredDecorations" :key="item.id">
           <button
             type="button"
             class="btn"
@@ -44,6 +57,7 @@
           </button>
         </template>
       </div>
+
       <!-- 上传装饰小图 -->
       <div class="decorations-upload">
         <div class="upload">
@@ -60,30 +74,27 @@
         </div>
         <!-- <div class="preview-decoration" alt="Preview uploaded decoration"></div> -->
         <!-- 底部提示 -->
-        <div class="myoctocats-tip">
-          <p>
-            💡使用
-            <a
-              href="https://octodex.github.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+        <div class="share-container">
+          <button type="button" class="share-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              Github Octodex
-            </a>
-            中的octocat
-          </p>
-          <p>
-            💡或者在
-            <a
-              href="https://myoctocat.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              MyOctocat.com
-            </a>
-            上构建自己的octocat
-          </p>
-          <p>💡octocat看起来坏了，但是可以复制svg结果</p>
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            分享我的作品
+          </button>
         </div>
       </div>
     </div>
@@ -91,136 +102,224 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 // 引入仓库
 import usePictureStore from '@/stores/picture'
+// 引入获取装饰小图路径的方法
+import { getDecorationFile } from '@/utils/getAssetsFile'
 
 // 仓库实例
 let pictureStore = usePictureStore()
 // 上传图片输入框实例
 let uploadRef = ref()
+
+// 分类定义
+const categories = [
+  { id: 'internet', name: '互联网' },
+  { id: 'office', name: '办公' },
+  { id: 'travel', name: '旅行' },
+]
+
+// 当前选中的类别
+const activeCategory = ref('internet')
+
 // 装饰小图种类数据
 let allDecorationImg = reactive([
+  // 互联网类
   {
     id: 1,
+    category: 'internet',
     aria_label: 'my-octocat小图按钮',
-    data_decotation_value: 'my-octocat.png',
-    src: '/src/assets/images/decorations/my-octocat-thumbnail.png',
+    data_decotation_value: 'internet/my-octocat.png',
+    src: getDecorationFile('internet/my-octocat-thumbnail.png'),
     alt: 'my-octocat小图',
   },
   {
     id: 2,
+    category: 'internet',
     aria_label: 'octocat小图按钮',
-    data_decotation_value: 'octocat.png',
-    src: '/src/assets/images/decorations/octocat-thumbnail.png',
+    data_decotation_value: 'internet/octocat.png',
+    src: getDecorationFile('internet/octocat-thumbnail.png'),
     alt: 'octocat',
   },
   {
     id: 3,
+    category: 'internet',
     aria_label: 'github-mark小图按钮',
-    data_decotation_value: 'github-mark.png',
-    src: '/src/assets/images/decorations/github-mark-thumbnail.png',
+    data_decotation_value: 'internet/github-mark.png',
+    src: getDecorationFile('internet/github-mark-thumbnail.png'),
     alt: 'github-mark',
   },
   {
     id: 4,
+    category: 'internet',
     aria_label: 'dev-badge小图按钮',
-    data_decotation_value: 'dev-badge.png',
-    src: '/src/assets/images/decorations/dev-badge-thumbnail.png',
+    data_decotation_value: 'internet/dev-badge.png',
+    src: getDecorationFile('internet/dev-badge-thumbnail.png'),
     alt: 'dev-badge小图',
   },
   {
     id: 5,
+    category: 'internet',
     aria_label: 'dev-rainbow小图按钮',
-    data_decotation_value: 'dev-rainbow.png',
-    src: '/src/assets/images/decorations/dev-rainbow-thumbnail.png',
+    data_decotation_value: 'internet/dev-rainbow.png',
+    src: getDecorationFile('internet/dev-rainbow-thumbnail.png'),
     alt: 'dev-rainbow小图',
   },
   {
     id: 6,
+    category: 'internet',
     aria_label: 'dev-white小图按钮',
-    data_decotation_value: 'dev-white.png',
-    src: '/src/assets/images/decorations/dev-white-thumbnail.png',
+    data_decotation_value: 'internet/dev-white.png',
+    src: getDecorationFile('internet/dev-white-thumbnail.png'),
     alt: 'dev-white小图',
   },
   {
     id: 7,
+    category: 'internet',
     aria_label: 'code小图按钮',
-    data_decotation_value: 'code.png',
-    src: '/src/assets/images/decorations/code-thumbnail.png',
+    data_decotation_value: 'internet/code.png',
+    src: getDecorationFile('internet/code-thumbnail.png'),
     alt: 'code小图',
   },
   {
     id: 8,
+    category: 'internet',
     aria_label: 'terminal小图按钮',
-    data_decotation_value: 'terminal.png',
-    src: '/src/assets/images/decorations/terminal-thumbnail.png',
+    data_decotation_value: 'internet/terminal.png',
+    src: getDecorationFile('internet/terminal-thumbnail.png'),
     alt: 'terminal小图',
   },
   {
     id: 9,
+    category: 'internet',
     aria_label: 'programming小图按钮',
-    data_decotation_value: 'programming.png',
-    src: '/src/assets/images/decorations/programming-thumbnail.png',
+    data_decotation_value: 'internet/programming.png',
+    src: getDecorationFile('internet/programming-thumbnail.png'),
     alt: 'programming小图',
   },
   {
     id: 10,
+    category: 'internet',
     aria_label: 'rocket小图按钮',
-    data_decotation_value: 'rocket.png',
-    src: '/src/assets/images/decorations/rocket-thumbnail.png',
+    data_decotation_value: 'internet/rocket.png',
+    src: getDecorationFile('internet/rocket-thumbnail.png'),
     alt: 'rocket小图',
   },
   {
     id: 11,
+    category: 'internet',
     aria_label: 'terminal-circle小图按钮',
-    data_decotation_value: 'terminal-circle.png',
-    src: '/src/assets/images/decorations/terminal-circle-thumbnail.png',
+    data_decotation_value: 'internet/terminal-circle.png',
+    src: getDecorationFile('internet/terminal-circle-thumbnail.png'),
     alt: 'terminal-circle小图',
   },
   {
     id: 12,
+    category: 'internet',
     aria_label: 'binary-code小图按钮',
-    data_decotation_value: 'binary-code.png',
-    src: '/src/assets/images/decorations/binary-code-thumbnail.png',
+    data_decotation_value: 'internet/binary-code.png',
+    src: getDecorationFile('internet/binary-code-thumbnail.png'),
     alt: 'binary-code小图',
   },
   {
     id: 13,
+    category: 'internet',
     aria_label: 'coding-screen小图按钮',
-    data_decotation_value: 'coding-screen.png',
-    src: '/src/assets/images/decorations/coding-screen-thumbnail.png',
+    data_decotation_value: 'internet/coding-screen.png',
+    src: getDecorationFile('internet/coding-screen-thumbnail.png'),
     alt: 'coding-screen小图',
   },
   {
     id: 14,
+    category: 'internet',
     aria_label: 'coding小图按钮',
-    data_decotation_value: 'coding.png',
-    src: '/src/assets/images/decorations/coding-thumbnail.png',
+    data_decotation_value: 'internet/coding.png',
+    src: getDecorationFile('internet/coding-thumbnail.png'),
     alt: 'coding小图',
   },
   {
     id: 15,
+    category: 'internet',
     aria_label: 'idea小图按钮',
-    data_decotation_value: 'idea.png',
-    src: '/src/assets/images/decorations/idea-thumbnail.png',
+    data_decotation_value: 'internet/idea.png',
+    src: getDecorationFile('internet/idea-thumbnail.png'),
     alt: 'idea小图',
   },
+  // 办公类
   {
     id: 16,
-    aria_label: 'tabs小图按钮',
-    data_decotation_value: 'tabs.png',
-    src: '/src/assets/images/decorations/tabs-thumbnail.png',
-    alt: 'tabs小图',
+    category: 'office',
+    aria_label: '插入文字小图按钮',
+    data_decotation_value: 'office/insert-word.png',
+    src: getDecorationFile('office/insert-word-thumbnail.png'),
+    alt: '插入文字小图',
   },
   {
     id: 17,
-    aria_label: 'apple小图按钮',
-    data_decotation_value: 'apple.png',
-    src: '/src/assets/images/decorations/apple-thumbnail.png',
-    alt: 'apple小图',
+    category: 'office',
+    aria_label: '计算器小图按钮',
+    data_decotation_value: 'office/calculator.png',
+    src: getDecorationFile('office/calculator-thumbnail.png'),
+    alt: '计算器小图',
+  },
+  {
+    id: 18,
+    category: 'office',
+    aria_label: '双列对齐小图按钮',
+    data_decotation_value: 'office/align-two-columns.png',
+    src: getDecorationFile('office/align-two-columns-thumbnail.png'),
+    alt: '双列对齐小图',
+  },
+  // 旅行类
+  {
+    id: 19,
+    category: 'travel',
+    aria_label: '帽子小图按钮',
+    data_decotation_value: 'travel/hat.png',
+    src: getDecorationFile('travel/hat-thumbunail.png'),
+    alt: '帽子小图',
+  },
+  {
+    id: 20,
+    category: 'travel',
+    aria_label: '裤子小图按钮',
+    data_decotation_value: 'travel/pants.png',
+    src: getDecorationFile('travel/pants-thumbunail.png'),
+    alt: '裤子小图',
+  },
+  {
+    id: 21,
+    category: 'travel',
+    aria_label: '潜水镜小图按钮',
+    data_decotation_value: 'travel/diving-goggles.png',
+    src: getDecorationFile('travel/diving-goggles-thumbunail.png'),
+    alt: '潜水镜小图',
+  },
+  {
+    id: 22,
+    category: 'travel',
+    aria_label: '酒店小图按钮',
+    data_decotation_value: 'travel/hotel.png',
+    src: getDecorationFile('travel/hotel-thumbunail.png'),
+    alt: '酒店小图',
+  },
+  {
+    id: 23,
+    category: 'travel',
+    aria_label: '建筑小图按钮',
+    data_decotation_value: 'travel/building.png',
+    src: getDecorationFile('travel/building-thumbunail.png'),
+    alt: '建筑小图',
   },
 ])
+
+// 根据当前选中的类别筛选装饰图
+const filteredDecorations = computed(() => {
+  return allDecorationImg.filter(
+    (item) => item.category === activeCategory.value,
+  )
+})
 
 // 改变装饰小图大小
 function changeDecorationImgSize(decorationImgSize: string) {
@@ -280,6 +379,33 @@ function uploadPicture() {
       }
     }
 
+    // 装饰图分类tab
+    .decoration-categories {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+
+      .category-tab {
+        padding: 6px 12px;
+        margin-right: 8px;
+        border: none;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &.active {
+          background: rgba(255, 255, 255, 0.3);
+          font-weight: bold;
+        }
+      }
+    }
+
     // 装饰图种类区域
     .decorations-buttons {
       button {
@@ -314,7 +440,45 @@ function uploadPicture() {
         margin-right: 30px;
       }
 
-      // 底部提示
+      // 分享按钮容器
+      .share-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        width: 100%;
+
+        .share-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 20px;
+          background: #2d8655;
+          color: white;
+          border: none;
+          border-radius: var(--button-border-radius);
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.25s ease;
+
+          svg {
+            transition: transform 0.3s ease;
+          }
+
+          &:hover {
+            background: #36a066;
+            box-shadow: 0px 0px 8px rgba(45, 134, 85, 0.5);
+
+            svg {
+              transform: rotate(30deg);
+            }
+          }
+        }
+      }
+
+      // 底部提示 (保留样式以便未来可能需要)
       .myoctocats-tip {
         display: inline-block;
         margin-top: 20px;
@@ -353,6 +517,16 @@ function uploadPicture() {
         }
       }
 
+      // 装饰图分类tab - 电脑端优化
+      .decoration-categories {
+        justify-content: center;
+
+        .category-tab {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+      }
+
       // 装饰图种类区域
       .decorations-buttons {
         margin-bottom: 22px;
@@ -362,6 +536,16 @@ function uploadPicture() {
       .decorations-upload {
         margin-top: -15px;
         padding-top: 0px;
+
+        // 分享按钮 - 电脑端优化
+        .share-container {
+          margin-top: 30px;
+
+          .share-button {
+            padding: 12px 25px;
+            font-size: 16px;
+          }
+        }
       }
     }
   }

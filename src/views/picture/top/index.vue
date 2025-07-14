@@ -8,6 +8,23 @@
         :style="{ zoom: `${zoom}` }"
       ></Picture1>
     </div>
+    <!-- 模板选择下拉菜单 -->
+    <div class="template-selector">
+      <div class="template-label">模板选择:</div>
+      <div class="template-options">
+        <div
+          v-for="template in templates"
+          :key="template.value"
+          :class="[
+            'template-option',
+            { active: pictureStore.templateType === template.value },
+          ]"
+          @click="changeTemplate(template.value)"
+        >
+          {{ template.label }}
+        </div>
+      </div>
+    </div>
     <!-- 下方按钮 -->
     <div class="options-container">
       <button type="button" class="dark-mode-button" @click="changeModeColor">
@@ -33,7 +50,6 @@ import { getBackgroundSvg } from '@/utils/backgroundSvg'
 import { randomTheme } from '@/utils/randomTheme'
 // 引入仓库
 import usePictureStore from '@/stores/picture'
-import html2canvas from 'html2canvas'
 
 // 创建仓库实例
 let pictureStore = usePictureStore()
@@ -54,9 +70,23 @@ let canvasRef = ref()
 // 图片的缩放倍数
 let zoom = ref<number>(1)
 
+// 模板选项
+const templates = [
+  { label: '标准', value: 'standard' },
+  { label: '垂直', value: 'vertical' },
+  { label: '水平', value: 'horizontal' },
+  { label: '居中', value: 'centered' },
+  { label: '简约', value: 'minimal' },
+]
+
 // 改变背景显示模式：深色模式，浅色模式
 function changeModeColor() {
   ModeColor.value = !ModeColor.value
+}
+
+// 切换模板
+function changeTemplate(templateType: string) {
+  pictureStore.changeTemplate(templateType)
 }
 
 // 监视仓库里的width，如果图片1的宽度超过画布初始宽度，就进行缩放，但是图片2不缩放（隐藏了，用户看不见），下载的时候用图片2
@@ -123,6 +153,8 @@ function getRandomTheme() {
   pictureStore.pattern = theme.pattern
   pictureStore.patternColor = theme.patternColor
   pictureStore.patternOpacity = theme.patternOpacity + ''
+  // 模板类型
+  pictureStore.templateType = theme.templateType
 }
 
 onMounted(() => {
@@ -144,6 +176,46 @@ onMounted(() => {
   .header-image-container {
     width: 100%;
     filter: drop-shadow(0px 0px 5px rgba(125, 125, 125, 0.5));
+  }
+
+  // 模板选择器
+  .template-selector {
+    margin-top: 15px;
+
+    .template-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 8px;
+    }
+
+    .template-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .template-option {
+        padding: 6px 10px;
+        background: rgba(45, 45, 45, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--button-border-radius);
+        color: var(--text-color);
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &:hover {
+          background: rgba(60, 60, 60, 0.7);
+        }
+
+        &.active {
+          background: #2d8655;
+          border-color: #2d8655;
+          color: white;
+          box-shadow: 0px 0px 5px 2px rgba(45, 134, 85, 0.25);
+        }
+      }
+    }
   }
 
   // 下方按钮
@@ -187,12 +259,62 @@ onMounted(() => {
 // 浅色模式
 .lightMode {
   background: var(--github-light-mode-color);
+
+  .template-selector {
+    .template-label {
+      color: #333;
+    }
+
+    .template-options {
+      .template-option {
+        background: rgba(64, 120, 192, 0.2);
+        border: 1px solid rgba(64, 120, 192, 0.3);
+        color: #333;
+
+        &:hover {
+          background: rgba(64, 120, 192, 0.3);
+          border-color: rgba(64, 120, 192, 0.5);
+        }
+
+        &.active {
+          background: #4078c0;
+          border-color: #4078c0;
+          color: white;
+          box-shadow: 0px 0px 5px 2px rgba(64, 120, 192, 0.25);
+        }
+      }
+    }
+  }
+
+  .options-container {
+    button {
+      &:hover {
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
 }
 
 // 电脑端
 @media screen and (min-width: 768px) {
   .box {
     padding: var(--paddings);
+
+    // 模板选择器
+    .template-selector {
+      margin-top: 20px;
+
+      .template-label {
+        font-size: 16px;
+      }
+
+      .template-options {
+        .template-option {
+          padding: 8px 15px;
+          font-size: 14px;
+        }
+      }
+    }
 
     // 下方按钮
     .options-container {

@@ -1,7 +1,14 @@
 <template>
   <div class="filings">
-    <a class="feedback-button" href="#feedback-modal">发送反馈</a>
-    <div class="icons">
+    <!-- <a class="feedback-button" href="#feedback-modal">发送反馈</a> -->
+    <a
+      class="feedback-button"
+      href="https://support.qq.com/products/678125"
+      target="_blank"
+    >
+      发送反馈
+    </a>
+    <!-- <div class="icons">
       <a
         href="https://beian.miit.gov.cn/"
         target="_blank"
@@ -9,11 +16,11 @@
       >
         京ICP备2020036163号-1
       </a>
-    </div>
+    </div> -->
   </div>
-  <div class="feedback">
+  <!-- <div class="feedback">
     <Feedback v-if="isFeedback"></Feedback>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
