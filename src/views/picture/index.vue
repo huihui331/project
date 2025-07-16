@@ -40,7 +40,7 @@ import Bottom from './bottom/index.vue'
 // 电脑端
 @media screen and (min-width: 768px) {
   .picture {
-    height: 690px;
+    height: 95vh;
   }
 }
 </style>

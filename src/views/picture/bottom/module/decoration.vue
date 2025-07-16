@@ -74,7 +74,7 @@
         </div>
         <!-- <div class="preview-decoration" alt="Preview uploaded decoration"></div> -->
         <!-- 底部提示 -->
-        <div class="share-container">
+        <!-- <div class="share-container">
           <button type="button" class="share-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@
             </svg>
             分享我的作品
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -126,22 +126,6 @@ const activeCategory = ref('internet')
 // 装饰小图种类数据
 let allDecorationImg = reactive([
   // 互联网类
-  {
-    id: 1,
-    category: 'internet',
-    aria_label: 'my-octocat小图按钮',
-    data_decotation_value: 'internet/my-octocat.png',
-    src: getDecorationFile('internet/my-octocat-thumbnail.png'),
-    alt: 'my-octocat小图',
-  },
-  {
-    id: 2,
-    category: 'internet',
-    aria_label: 'octocat小图按钮',
-    data_decotation_value: 'internet/octocat.png',
-    src: getDecorationFile('internet/octocat-thumbnail.png'),
-    alt: 'octocat',
-  },
   {
     id: 3,
     category: 'internet',
@@ -250,26 +234,34 @@ let allDecorationImg = reactive([
   {
     id: 16,
     category: 'office',
-    aria_label: '插入文字小图按钮',
-    data_decotation_value: 'office/insert-word.png',
-    src: getDecorationFile('office/insert-word-thumbnail.png'),
-    alt: '插入文字小图',
+    aria_label: 'office1小图按钮',
+    data_decotation_value: 'office/office1.png',
+    src: getDecorationFile('office/office1 -thumbnail.png'),
+    alt: 'office1小图',
   },
   {
     id: 17,
     category: 'office',
-    aria_label: '计算器小图按钮',
-    data_decotation_value: 'office/calculator.png',
-    src: getDecorationFile('office/calculator-thumbnail.png'),
-    alt: '计算器小图',
+    aria_label: 'office2小图按钮',
+    data_decotation_value: 'office/office2.png',
+    src: getDecorationFile('office/office2 -thumbnail.png'),
+    alt: 'office2小图',
   },
   {
     id: 18,
     category: 'office',
-    aria_label: '双列对齐小图按钮',
-    data_decotation_value: 'office/align-two-columns.png',
-    src: getDecorationFile('office/align-two-columns-thumbnail.png'),
-    alt: '双列对齐小图',
+    aria_label: 'office3小图按钮',
+    data_decotation_value: 'office/office3.png',
+    src: getDecorationFile('office/office3 -thumbnail.png'),
+    alt: 'office3小图',
+  },
+  {
+    id: 24,
+    category: 'office',
+    aria_label: 'office4小图按钮',
+    data_decotation_value: 'office/office4.png',
+    src: getDecorationFile('office/office4-thumbnail.png'),
+    alt: 'office4小图',
   },
   // 旅行类
   {

@@ -3,7 +3,7 @@
     <header class="header">
       <h1>
         <img
-          src="../../assets/images/github-logo-40.svg"
+          src="../../assets/images/logo.png"
           width="40"
           height="40"
           alt="Github logo"
