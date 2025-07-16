@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
+// Vite的类型提示辅助函数
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 // 引入svg需要的插件
