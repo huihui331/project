@@ -143,7 +143,7 @@
             :data-pattern-value="item.data_pattern_value"
             @click="changePattern(item.data_pattern_value)"
           >
-            <img :src="item.src" :alt="item.alt" />
+            <LazyImage :src="item.src" :alt="item.alt" :root-margin="'100px'" />
           </button>
         </template>
       </div>
@@ -432,7 +432,9 @@ watch(
     .patterns-buttons {
       // max-width: 550px;
       margin-top: 10px;
-
+      .btn:first-child {
+        margin-left: 15px;
+      }
       button {
         width: 50px;
         height: 50px;

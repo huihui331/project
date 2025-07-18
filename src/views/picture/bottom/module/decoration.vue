@@ -46,14 +46,15 @@
         >
           空白
         </button>
-        <template v-for="item in filteredDecorations" :key="item.id">
+        <template v-for="item in allDecorationImg" :key="item.id">
           <button
             type="button"
             class="btn"
             :aria-label="item.aria_label"
             @click="changeDecorationImgSrc(item.data_decotation_value, false)"
+            v-show="item.category === activeCategory"
           >
-            <img :src="item.src" :alt="item.alt" />
+            <LazyImage :src="item.src" :alt="item.alt" :root-margin="'100px'" />
           </button>
         </template>
       </div>
@@ -102,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref } from 'vue'
 // 引入仓库
 import usePictureStore from '@/stores/picture'
 // 引入获取装饰小图路径的方法
@@ -305,13 +306,6 @@ let allDecorationImg = reactive([
     alt: '建筑小图',
   },
 ])
-
-// 根据当前选中的类别筛选装饰图
-const filteredDecorations = computed(() => {
-  return allDecorationImg.filter(
-    (item) => item.category === activeCategory.value,
-  )
-})
 
 // 改变装饰小图大小
 function changeDecorationImgSize(decorationImgSize: string) {

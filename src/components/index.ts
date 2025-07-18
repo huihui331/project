@@ -2,11 +2,12 @@
 import SvgIcon from './svgIcon/index.vue'
 import Picture1 from './picture/picture1.vue'
 import Picture2 from './picture/picture2.vue'
+import LazyImage from './lazyImage/index.vue'
 // 引入element-plus提供的全部图标组件
 // import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 // 全局对象
-const allGlobalComponent: any = { SvgIcon, Picture1, Picture2 }
+const allGlobalComponent: any = { SvgIcon, Picture1, Picture2, LazyImage }
 
 // 对外暴露插件对象
 export default {
