@@ -284,18 +284,42 @@ watch(
 
 // 下载图片
 function download() {
-  html2canvas(pictureRef.value, { backgroundColor: null, scale: 1 })
+  //使用 html2canvas 将 HTML 元素转换为图片并下载
+  html2canvas(pictureRef.value, {
+    backgroundColor: null,
+    scale: 1,
+    useCORS: true, // 支持跨域图片
+    allowTaint: false, // 不允许污染画布
+  })
     .then((canvas) => {
-      let imageURL = canvas.toDataURL('image/png')
-      let a = document.createElement('a')
-      a.href = imageURL
-      a.download = 'github-header-image'
-      a.click()
-      pictureStore.DownloadPicture() // 下载结束
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            alert('图片生成失败')
+            return
+          }
+          console.log('看看blob是什么', blob)
+          // 将 Blob 转换为 URL
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = `header-image-${Date.now()}.png`
+          a.click()
+
+          // 延迟释放，确保下载开始
+          setTimeout(() => {
+            URL.revokeObjectURL(url)
+          }, 100)
+
+          pictureStore.DownloadPicture()
+        },
+        'image/png',
+        1.0,
+      )
     })
     .catch((error) => {
       alert('下载失败')
-      console.log(new Error(error))
+      console.error('下载错误:', error)
     })
 }
 </script>

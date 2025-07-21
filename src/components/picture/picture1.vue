@@ -1,7 +1,7 @@
 <template>
   <!-- 图片picture，调整的就是它的样式，非常重要 -->
   <div
-    class="github-header-image"
+    class="header-image"
     ref="pictureRef"
     :style="{
       height: pictureStore.height + 'px',
@@ -274,7 +274,7 @@ watch(
 <style scoped lang="scss">
 // 手机端
 // 图片
-.github-header-image {
+.header-image {
   position: relative;
   margin: 0 auto;
   border: none;
@@ -426,7 +426,7 @@ watch(
 // 电脑端
 @media screen and (min-width: 768px) {
   // 画布
-  .github-header-image {
+  .header-image {
     .subtitle {
       margin-top: 6px;
     }
@@ -444,7 +444,7 @@ watch(
 
 // 移动端优化
 @media screen and (max-width: 767px) {
-  .github-header-image {
+  .header-image {
     // 水平模板在移动端的优化
     &.horizontal {
       .horizontal-layout {

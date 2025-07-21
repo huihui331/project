@@ -132,6 +132,10 @@ function getRandomTheme() {
   } else {
     pictureStore.decorationImgsHidden = false
   }
+  // 标题
+  pictureStore.title = theme.titleText
+  // 副标题
+  pictureStore.subtitle = theme.subtitleText
   // 背景颜色
   pictureStore.backgroundColor = theme.background
   // 大标题

@@ -16,7 +16,6 @@ import Bottom from './bottom/index.vue'
 // 手机端
 .picture {
   // grid-area: section2;
-  background: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
   box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.25);
   overflow: auto;

@@ -26,12 +26,20 @@ import Filings from './views/filings/index.vue'
   min-height: 100vh;
   background: linear-gradient(
     180deg,
-    #6e5494 0%,
-    #605fa1 32.6%,
-    #4e6db3 68.54%,
-    #4078c0 100%
+    rgba(18, 18, 22, 1) 0%,
+    rgba(22, 23, 26, 1) 8.333%,
+    rgba(26, 27, 31, 1) 16.667%,
+    rgba(31, 32, 35, 1) 25%,
+    rgba(35, 36, 39, 1) 33.333%,
+    rgba(39, 40, 43, 1) 41.667%,
+    rgba(43, 44, 47, 1) 50%,
+    rgba(47, 48, 51, 1) 58.333%,
+    rgba(50, 51, 55, 1) 66.667%,
+    rgba(54, 55, 58, 1) 75%,
+    rgba(56, 57, 61, 1) 83.333%,
+    rgba(59, 60, 64, 1) 91.667%,
+    rgba(61, 62, 66, 1) 100%
   );
-
   .left {
     .footer {
       display: flex;
